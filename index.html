@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Action ou Vérité - Couple</title>
+  <title>Action ou Vérité Couple ❤️</title>
   <style>
     body {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-family: 'Arial', sans-serif;
       text-align: center;
-      background: radial-gradient(circle at top left, #ffccff, #ffe6f0);
+      background: linear-gradient(to right, #2c2c54, #4b4b8a);
+      color: #f0f0f0;
       margin: 0;
       padding: 0;
     }
     .container {
-      width: 95%;
-      max-width: 480px;
+      max-width: 600px;
       margin: 20px auto;
-      background: #fffafa;
+      background: #1f1f2e;
       border-radius: 20px;
-      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.3);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
       padding: 20px;
       animation: fadeInUp 1s ease-in-out;
     }
@@ -27,182 +27,345 @@
       to { transform: translateY(0); opacity: 1; }
     }
     h1 {
-      color: #ff3399;
-      font-size: 26px;
+      color: #ff477e;
+      font-size: 28px;
     }
-    input, textarea, button {
-      width: 95%;
+    input, select, button, textarea {
+      width: 90%;
       margin: 10px auto;
-      padding: 14px;
+      padding: 12px;
       font-size: 16px;
-      border: 2px dashed #ff66b2;
+      border: 2px solid #ff477e;
       border-radius: 10px;
       display: block;
-      background: #fff0f5;
+      background: #2f2f4f;
+      color: white;
     }
     button {
-      background-color: #ff66b2;
+      background-color: #ff477e;
       color: white;
       font-weight: bold;
       transition: 0.3s ease;
+      cursor: pointer;
     }
     button:hover {
-      background-color: #e60073;
+      background-color: #cc3c69;
       transform: scale(1.03);
     }
-    .hidden-section {
+    .hidden {
       display: none;
-      background: #fff0f5;
-      padding: 15px;
-      border-radius: 15px;
-      margin-top: 15px;
-      border: 1px solid #ff99cc;
     }
-    #result, #playersList {
-      margin-top: 15px;
-      font-size: 18px;
-      color: #cc0066;
-    }
-    strong {
-      color: #ff0066;
-    }
-    em {
-      font-style: italic;
-      color: #660033;
+    #result, #choiceButtons, #questionDisplay {
+      margin-top: 20px;
       font-size: 20px;
-      background: #fff0f5;
-      padding: 12px;
-      display: inline-block;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(255, 105, 180, 0.2);
     }
-    #choiceButtons button {
-      display: inline-block;
-      width: 45%;
-      margin: 8px;
-      background-color: #ff99cc;
-      font-size: 18px;
-    }
-    #questionDisplay {
-      margin-top: 25px;
+    #questionDisplay em {
+      font-style: italic;
+      color: #ffabc9;
       font-size: 22px;
-      color: #d1005d;
-      animation: bounceIn 0.6s ease-in-out;
+      background: #2f2f4f;
+      padding: 14px;
+      border-radius: 12px;
+      display: inline-block;
+      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
     }
-    @keyframes bounceIn {
-      0% { transform: scale(0.8); opacity: 0; }
-      50% { transform: scale(1.1); opacity: 1; }
-      100% { transform: scale(1); }
+    #spinner {
+      font-size: 22px;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <audio id="ding" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio>
-
   <div class="container">
-    <h1>🎀 Action ou Vérité - Couple ❤️</h1>
-
+    <h1>🎲 Action ou Vérité - Couple Coquin ❤️‍🔥</h1>
     <div>
-      <h3>Entre les prénoms des joueurs :</h3>
-      <input type="text" id="playerInput" placeholder="Ex: Emma, Léo">
-      <button onclick="savePlayers()">Valider</button>
+      <h3>Ajoutez les joueurs :</h3>
+      <input type="text" id="name1" placeholder="Prénom joueur 1">
+      <select id="gender1">
+        <option value="fille">Fille</option>
+        <option value="garcon">Garçon</option>
+      </select>
+
+      <input type="text" id="name2" placeholder="Prénom joueur 2">
+      <select id="gender2">
+        <option value="fille">Fille</option>
+        <option value="garcon">Garçon</option>
+      </select>
+
+      <button onclick="savePlayers()">✅ Valider</button>
       <div id="playersList"></div>
     </div>
 
     <div>
-      <button onclick="toggleSection('girlSection')">🌸 Actions/Vérités pour la fille</button>
-      <div id="girlSection" class="hidden-section">
-        <h3>Actions pour la fille</h3>
-        <textarea id="actionsForGirl" rows="4" placeholder="Une action par ligne"></textarea><br>
-        <h3>Vérités pour la fille</h3>
-        <textarea id="truthsForGirl" rows="4" placeholder="Une vérité par ligne"></textarea>
-      </div>
-
-      <button onclick="toggleSection('boySection')">🎩 Actions/Vérités pour le garçon</button>
-      <div id="boySection" class="hidden-section">
-        <h3>Actions pour le garçon</h3>
-        <textarea id="actionsForBoy" rows="4" placeholder="Une action par ligne"></textarea><br>
-        <h3>Vérités pour le garçon</h3>
-        <textarea id="truthsForBoy" rows="4" placeholder="Une vérité par ligne"></textarea>
-      </div>
-
-      <button onclick="saveActionsTruths()">💾 Enregistrer</button>
+      <button onclick="startRound()">🎮 Jouer</button>
+      <div id="spinner"></div>
+      <div id="result"></div>
+      <div id="choiceButtons"></div>
+      <div id="questionDisplay"></div>
     </div>
-
-    <div>
-      <button onclick="prepareRound()">▶️ Jouer</button>
-    </div>
-
-    <div id="result"></div>
-    <div id="choiceButtons"></div>
-    <div id="questionDisplay"></div>
   </div>
 
-  <script>
-    let players = [];
-    let actionsForGirl = [], truthsForGirl = [];
-    let actionsForBoy = [], truthsForBoy = [];
-    let currentPlayer = '';
-    let isGirl = false;
+<script>
+  let players = [], genders = [];
+  let actions = { fille: [], garcon: [] };
+  let truths = { fille: [], garcon: [] };
+  let currentPlayer = '', currentGender = '';
 
-    function toggleSection(id) {
-      const section = document.getElementById(id);
-      section.style.display = section.style.display === 'none' ? 'block' : 'none';
+  const usedActions = { fille: [], garcon: [] };
+  const usedTruths = { fille: [], garcon: [] };
+
+  function savePlayers() {
+    const name1 = document.getElementById('name1').value.trim();
+    const gender1 = document.getElementById('gender1').value;
+    const name2 = document.getElementById('name2').value.trim();
+    const gender2 = document.getElementById('gender2').value;
+
+    if (name1 && name2) {
+      players = [name1, name2];
+      genders = [gender1, gender2];
+      document.getElementById('playersList').innerText = `${name1} et ${name2} sont prêts à jouer !`;
+    } else {
+      alert("Veuillez entrer les deux prénoms.");
     }
+  }
 
-    function savePlayers() {
-      const input = document.getElementById('playerInput').value;
-      players = input.split(',').map(name => name.trim()).filter(name => name);
-      document.getElementById('playersList').innerHTML =
-        players.length > 0 ? `✅ Joueurs : <strong>${players.join(', ')}</strong>` : '';
+  function startRound() {
+    if (players.length < 2) {
+      alert("Veuillez valider les joueurs d'abord.");
+      return;
     }
-
-    function saveActionsTruths() {
-      actionsForGirl = document.getElementById('actionsForGirl').value.split('\n').map(x => x.trim()).filter(x => x);
-      truthsForGirl = document.getElementById('truthsForGirl').value.split('\n').map(x => x.trim()).filter(x => x);
-      actionsForBoy = document.getElementById('actionsForBoy').value.split('\n').map(x => x.trim()).filter(x => x);
-      truthsForBoy = document.getElementById('truthsForBoy').value.split('\n').map(x => x.trim()).filter(x => x);
-      alert("Actions et Vérités personnalisées enregistrées !");
-    }
-
-    function prepareRound() {
-      if (players.length !== 2) {
-        alert("Ajoute exactement deux joueurs (un garçon et une fille) !");
-        return;
-      }
-
-      document.getElementById('questionDisplay').innerHTML = '';
-      document.getElementById('choiceButtons').innerHTML = '';
-
-      currentPlayer = Math.random() < 0.5 ? players[0] : players[1];
-      isGirl = currentPlayer === players[0];
-
-      document.getElementById('result').innerHTML = `<strong>${currentPlayer}</strong>, choisis :`;
-
+    let spinner = document.getElementById('spinner');
+    let i = 0;
+    let interval = setInterval(() => {
+      spinner.innerText = `Choix de joueur : ${players[i % 2]}`;
+      i++;
+    }, 100);
+    setTimeout(() => {
+      clearInterval(interval);
+      const index = Math.floor(Math.random() * 2);
+      currentPlayer = players[index];
+      currentGender = genders[index];
+      spinner.innerText = '';
+      document.getElementById('result').innerText = `C'est à ${currentPlayer} de jouer !`;
       document.getElementById('choiceButtons').innerHTML = `
-        <button onclick="reveal('action')">💃 Action</button>
-        <button onclick="reveal('verite')">🕵️ Vérité</button>
+        <button onclick="askQuestion('action', this)">Action</button>
+        <button onclick="askQuestion('truth', this)">Vérité</button>
       `;
+      document.getElementById('questionDisplay').innerHTML = '';
+    }, 1500);
+  }
+
+  function askQuestion(type, btn) {
+    let pool = type === 'action' ? actions[currentGender] : truths[currentGender];
+    if (pool.length === 0) {
+      pool = type === 'action' ? [...prefill[currentGender].actions] : [...prefill[currentGender].truths];
+      if (type === 'action') actions[currentGender] = [...pool];
+      else truths[currentGender] = [...pool];
     }
+    const index = Math.floor(Math.random() * pool.length);
+    const question = pool[index];
 
-    function reveal(choice) {
-      let question = "";
-      const ding = document.getElementById('ding');
-      ding.play();
+    document.getElementById('questionDisplay').innerHTML = `<em>${question}</em>`;
+    document.getElementById('choiceButtons').innerHTML = '';
 
-      if (isGirl) {
-        question = choice === 'verite'
-          ? truthsForGirl[Math.floor(Math.random() * truthsForGirl.length)] || "Aucune vérité disponible."
-          : actionsForGirl[Math.floor(Math.random() * actionsForGirl.length)] || "Aucune action disponible.";
-      } else {
-        question = choice === 'verite'
-          ? truthsForBoy[Math.floor(Math.random() * truthsForBoy.length)] || "Aucune vérité disponible."
-          : actionsForBoy[Math.floor(Math.random() * actionsForBoy.length)] || "Aucune action disponible.";
-      }
+    // Supprime la question utilisée
+    pool.splice(index, 1);
+  }
 
-      document.getElementById('questionDisplay').innerHTML = `<em>${question}</em>`;
-      document.getElementById('choiceButtons').innerHTML = '';
+  const prefill = {
+    fille: {
+      actions: [
+        "Fais un strip-tease lent et sexy.",
+        "Masturbe-toi doucement sous les yeux de ton partenaire.",
+        "Lèche doucement une partie intime pendant 30 secondes.",
+        "Chuchote une envie interdite dans l’oreille de ton partenaire.",
+        "Mets-toi nue sous un drap et fais bouger tes hanches sensuellement.",
+        "Fais semblant de jouir de façon exagérée.",
+        "Attache ton partenaire et embrasse-le partout.",
+        "Utilise un accessoire sexy (fouet, plumeau, cravache) pour titiller les zones sensibles.",
+         "Fais un jeu de rôle sexy, en incarnant un personnage de ton choix et en séduisant ton/ta partenaire.",
+          "Embrasse, mordille et caresse la nuque et les oreilles, en faisant monter la tension.",
+          "Fais un slow torride où vous ne vous lâchez pas du regard, en touchant chaque partie intime.",
+          "Chuchote à ton/ta partenaire ce que tu veux lui faire en détail, en posant tes mains sur son corps.",
+          "Fais une pause pour un baiser langoureux suivi d’un léger souffle chaud sur son cou.",
+          "Prends une photo coquine de toi, en teasing, et envoie-la à ton/ta partenaire (avec consentement).",
+          "Fais glisser tes mains sous les vêtements de ton/ta partenaire et découvre les zones interdites.",
+          "Réveille ton/ta partenaire avec un baiser langoureux sur tout le corps, du cou aux pieds.",
+          "Propose un défi sexy : embrasse et caresse ton/ta partenaire sans utiliser tes mains.",
+          "Fais un massage des pieds en insistant sur chaque orteil, tout en chuchotant des mots doux.",
+          "Fais un regard intense en le/la déshabillant des yeux lentement.",
+          "Fais une caresse légère sur l’intérieur des cuisses en attendant sa réaction.",
+          "Mords doucement la lèvre inférieure de ton/ta partenaire en le/la regardant.",
+          "Fais un jeu de regards complices et langoureux pendant 1 minute sans rien dire.",
+          "Donne un baiser papillon sur le cou puis descend vers la clavicule.",
+          "Mets-toi à genoux et fais un massage sensuel du ventre.",
+          "Embrasse doucement les doigts de ton/ta partenaire.",
+          "Chuchote un secret sexy que tu n’as jamais dit à personne.",
+          "Fais un slow en tenant fermement la taille de ton/ta partenaire.",
+          "Réveille son désir en caressant sa nuque avec un glaçon.",
+          "Fais un massage avec de l’huile parfumée, en insistant sur les épaules.",
+          "Simule un souffle chaud sur les oreilles, puis embrasse-les.",
+          "Utilise tes ongles pour griffer très légèrement le dos ou les jambes.",
+          "Propose une position sexuelle que vous n’avez jamais essayé.",
+          "Prends le contrôle en dictant une scène coquine improvisée.",
+          "Enlève un vêtement de ton/ta partenaire sans utiliser les mains.",
+          "Fais un bisou sur chaque oreille en murmurant des mots sexy.",
+          "Embrasse la courbe de son dos jusqu’à la base de la nuque.",
+        "Fais une danse érotique au ralenti."
+      ],
+      truths: [
+        "Quel est ton fantasme le plus inavouable ?",
+        "As-tu déjà simulé un orgasme ?",
+        "Quelle est la chose la plus sale que tu aies faite ?",
+        "As-tu déjà eu un orgasme multiple ?",
+        "As-tu déjà eu une relation à trois ?",
+        "Quel est le lieu le plus insolite où tu as fait l’amour ?",
+        "As-tu déjà regardé du porno avec ton partenaire ?",
+         "Quelle partie de ton corps te donne le plus de plaisir quand elle est touchée ?",
+          "As-tu déjà eu une expérience sexuelle à plusieurs ? Comment ça s’est passé ?",
+          "Quelle est ta plus grande envie sexuelle non réalisée à ce jour ?",
+          "As-tu déjà été attiré(e) par quelqu’un d’inattendu ou interdit ?",
+          "Quelle est la position que tu rêves d’essayer avec ton/ta partenaire ?",
+          "As-tu déjà fantasmé sur un lieu insolite pour faire l’amour ? Lequel ?",
+          "As-tu déjà utilisé des accessoires coquins ? Lesquels et comment ?",
+          "Quelle est la chose la plus sexy que tu aies dite ou faite pour séduire ?",
+          "As-tu déjà eu un orgasme en public ou dans un lieu interdit ?",
+          "Raconte une expérience sexuelle qui t’a particulièrement marqué(e) et pourquoi.",
+          "As-tu déjà fantasmé sur quelqu’un d’autre pendant un moment intime ?",
+          "Quelle est ta plus grande surprise sexuelle que tu as faite ou reçue ?",
+          "Quelle est ta zone érogène la plus sensible, même la plus secrète ?",
+          "As-tu déjà simulé un orgasme ? Pourquoi ?",
+          "As-tu déjà eu envie de faire l’amour dans un lieu insolite avec ton/ta partenaire ?",
+"Quel est le mot ou le geste qui te fait instantanément craquer ?",
+"Quelle est ta tenue la plus sexy que tu aimes porter pour séduire ?",
+"As-tu déjà eu une aventure d’un soir ? Raconte sans trop de détails.",
+"Quel est le compliment qui te fait le plus fondre ?",
+"As-tu déjà fait un strip-tease ? Comment c’était ?",
+"Quelle est ta plus grande honte sexuelle ?",
+"Quelle est la chose la plus coquine que tu as faite en public ?",
+"As-tu déjà voulu surprendre ton/ta partenaire avec un cadeau sexy ? Lequel ?",
+"As-tu déjà eu envie de faire l’amour toute la nuit ?",
+"As-tu déjà essayé des jeux coquins ? Lesquels ?",
+"As-tu déjà eu un coup de foudre sexuel immédiat ?",
+"As-tu déjà regardé un film érotique avec ton/ta partenaire ?",
+"As-tu déjà ressenti un désir impossible à contrôler ?",
+"Quelle est ta plus grande faiblesse quand tu es amoureux(se) ?",
+"As-tu déjà eu peur de ne pas satisfaire ton/ta partenaire ?",
+"Quelle est la chose la plus audacieuse que tu aimerais faire ?",
+"As-tu déjà eu un crush sur un ami proche ?",
+"Quelle est la sensation la plus sexy que tu aies ressentie ?",
+"Quelle est ta chanson préférée pour une ambiance coquine ?",
+"As-tu déjà eu une expérience où tu t’es senti(e) complètement désiré(e) ?",
+        "Préférerais-tu dominer ou être dominée ?"
+        
+      ]
+    },
+    garcon: {
+      actions: [
+        "Donne une fessée coquine à ton/ta partenaire.",
+        "Doigte doucement ton/ta partenaire.",
+        "Simule une fellation ou un cunnilingus.",
+        "Fais un massage sensuel sans les mains.",
+        "Fais gémir ton/ta partenaire sans la pénétrer.",
+        "Mets un glaçon dans ta bouche et embrasse ton/ta partenaire.",
+        "Lèche le cou de ton/ta partenaire pendant 1 minute.",
+        "Fais un strip-tease torride en jouant avec la lingerie de ton partenaire.",
+"Donne un massage des zones érogènes en utilisant uniquement ta bouche.",
+"Embrasse lentement chaque centimètre de peau nue en laissant des frissons.",
+"Lèche une partie intime de ton/ta partenaire pendant au moins 1 minute.",
+"Prends le contrôle et dirige ton/ta partenaire dans une danse sensuelle au rythme de vos souffles.",
+"Masturbe-toi lentement sous les yeux de ton/ta partenaire, en le/la regardant intensément.",
+"Imite une scène de film érotique en prenant la position dominante avec ton/ta partenaire.",
+"Fais un baiser profond et passionné, puis murmure un fantasme que tu voudrais réaliser.",
+"Fais un massage sensuel avec des glaçons en les faisant fondre sur la peau nue.",
+"Attache doucement ton/ta partenaire avec des liens en soie, puis explore lentement son corps.",
+"Utilise un accessoire sexy (fouet, plumeau, cravache) pour titiller les zones sensibles.",
+"Fais un jeu de rôle sexy, en incarnant un personnage de ton choix et en séduisant ton/ta partenaire.",
+"Embrasse, mordille et caresse la nuque et les oreilles, en faisant monter la tension.",
+"Fais un slow torride où vous ne vous lâchez pas du regard, en touchant chaque partie intime.",
+"Chuchote à ton/ta partenaire ce que tu veux lui faire en détail, en posant tes mains sur son corps.",
+"Fais une pause pour un baiser langoureux suivi d’un léger souffle chaud sur son cou.",
+"Prends une photo coquine de toi, en teasing, et envoie-la à ton/ta partenaire (avec consentement).",
+"Fais glisser tes mains sous les vêtements de ton/ta partenaire et découvre les zones interdites.",
+"Réveille ton/ta partenaire avec un baiser langoureux sur tout le corps, du cou aux pieds.",
+"Propose un défi sexy : embrasse et caresse ton/ta partenaire sans utiliser tes mains.",
+"Fais un massage des pieds en insistant sur chaque orteil, tout en chuchotant des mots doux.",
+"Fais un regard intense en le/la déshabillant des yeux lentement.",
+"Fais une caresse légère sur l’intérieur des cuisses en attendant sa réaction.",
+"Mords doucement la lèvre inférieure de ton/ta partenaire en le/la regardant.",
+"Fais un jeu de regards complices et langoureux pendant 1 minute sans rien dire.",
+"Donne un baiser papillon sur le cou puis descend vers la clavicule.",
+"Mets-toi à genoux et fais un massage sensuel du ventre.",
+"Embrasse doucement les doigts de ton/ta partenaire.",
+"Chuchote un secret sexy que tu n’as jamais dit à personne.",
+"Fais un slow en tenant fermement la taille de ton/ta partenaire.",
+"Réveille son désir en caressant sa nuque avec un glaçon.",
+"Fais un massage avec de l’huile parfumée, en insistant sur les épaules.",
+"Simule un souffle chaud sur les oreilles, puis embrasse-les.",
+"Utilise tes ongles pour griffer très légèrement le dos ou les jambes.",
+"Propose une position sexuelle que vous n’avez jamais essayé.",
+"Prends le contrôle en dictant une scène coquine improvisée.",
+"Enlève un vêtement de ton/ta partenaire sans utiliser les mains.",
+"Fais un bisou sur chaque oreille en murmurant des mots sexy.",
+"Embrasse la courbe de son dos jusqu’à la base de la nuque.",
+        "Fais une déclaration d’amour… version X."
+      ],
+      truths: [
+        "As-tu déjà couché avec plus d’une personne en même temps ?",
+        "Quelle est ta position préférée pour dominer ?",
+        "As-tu déjà utilisé des menottes ou accessoires coquins ?",
+        "As-tu déjà filmé une scène de sexe ?",
+        "Qu’est-ce qui te fait jouir le plus rapidement ?",
+        "As-tu déjà eu une érection incontrôlable ?",
+        "Quel est ton plus gros fantasme avec ton/ta partenaire ?",
+        "Quel est ton fantasme le plus secret et inavoué, celui que tu n’as jamais osé partager ?",
+"As-tu déjà eu un rêve érotique avec ton/ta partenaire ? Raconte-le en détail.",
+"Quelle est la chose la plus folle que tu aimerais tenter au lit mais que tu n’as jamais osé ?",
+"As-tu déjà été surpris(e) en pleine action ? Où et comment ?",
+"Quelle partie de ton corps te donne le plus de plaisir quand elle est touchée ?",
+"As-tu déjà eu une expérience sexuelle à plusieurs ? Comment ça s’est passé ?",
+"Quelle est ta plus grande envie sexuelle non réalisée à ce jour ?",
+"As-tu déjà été attiré(e) par quelqu’un d’inattendu ou interdit ?",
+"Quelle est la position que tu rêves d’essayer avec ton/ta partenaire ?",
+"As-tu déjà fantasmé sur un lieu insolite pour faire l’amour ? Lequel ?",
+"As-tu déjà utilisé des accessoires coquins ? Lesquels et comment ?",
+"Quelle est la chose la plus sexy que tu aies dite ou faite pour séduire ?",
+"As-tu déjà eu un orgasme en public ou dans un lieu interdit ?",
+"Raconte une expérience sexuelle qui t’a particulièrement marqué(e) et pourquoi.",
+"As-tu déjà fantasmé sur quelqu’un d’autre pendant un moment intime ?",
+"Quelle est ta plus grande surprise sexuelle que tu as faite ou reçue ?",
+"Quelle est ta zone érogène la plus sensible, même la plus secrète ?",
+"As-tu déjà simulé un orgasme ? Pourquoi ?",
+"As-tu déjà eu envie de faire l’amour dans un lieu insolite avec ton/ta partenaire ?",
+"Quel est le mot ou le geste qui te fait instantanément craquer ?",
+"Quelle est ta tenue la plus sexy que tu aimes porter pour séduire ?",
+"As-tu déjà eu une aventure d’un soir ? Raconte sans trop de détails.",
+"Quel est le compliment qui te fait le plus fondre ?",
+"As-tu déjà fait un strip-tease ? Comment c’était ?",
+"Quelle est ta plus grande honte sexuelle ?",
+"Quelle est la chose la plus coquine que tu as faite en public ?",
+"As-tu déjà voulu surprendre ton/ta partenaire avec un cadeau sexy ? Lequel ?",
+"As-tu déjà eu envie de faire l’amour toute la nuit ?",
+"As-tu déjà essayé des jeux coquins ? Lesquels ?",
+"As-tu déjà eu un coup de foudre sexuel immédiat ?",
+"As-tu déjà regardé un film érotique avec ton/ta partenaire ?",
+"As-tu déjà ressenti un désir impossible à contrôler ?",
+"Quelle est ta plus grande faiblesse quand tu es amoureux(se) ?",
+"As-tu déjà eu peur de ne pas satisfaire ton/ta partenaire ?",
+"Quelle est la chose la plus audacieuse que tu aimerais faire ?",
+"As-tu déjà eu un crush sur un ami proche ?",
+"Quelle est la sensation la plus sexy que tu aies ressentie ?",
+"Quelle est ta chanson préférée pour une ambiance coquine ?",
+"As-tu déjà eu une expérience où tu t’es senti(e) complètement désiré(e) ?",
+        "As-tu déjà fait l’amour dans un lieu public ?"
+      ]
     }
-  </script>
+  };
+
+  actions.fille.push(...prefill.fille.actions);
+  truths.fille.push(...prefill.fille.truths);
+  actions.garcon.push(...prefill.garcon.actions);
+  truths.garcon.push(...prefill.garcon.truths);
+</script>
 </body>
 </html>
