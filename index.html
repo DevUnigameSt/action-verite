@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Action ou Vérité - Couple</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      background: radial-gradient(circle at top left, #ffccff, #ffe6f0);
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #fffafa;
+      border-radius: 30px;
+      box-shadow: 0 8px 30px rgba(255, 105, 180, 0.3);
+      padding: 40px;
+      position: relative;
+      animation: fadeInUp 1s ease-in-out;
+    }
+    @keyframes fadeInUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    h1 {
+      color: #ff3399;
+      font-size: 32px;
+    }
+    input, textarea, button {
+      width: 90%;
+      margin: 10px auto;
+      padding: 12px;
+      font-size: 16px;
+      border: 2px dashed #ff66b2;
+      border-radius: 12px;
+      display: block;
+      background: #fff0f5;
+    }
+    button {
+      background-color: #ff66b2;
+      color: white;
+      font-weight: bold;
+      transition: 0.3s ease;
+    }
+    button:hover {
+      background-color: #e60073;
+      transform: scale(1.05);
+    }
+    .hidden-section {
+      display: none;
+      background: #fff0f5;
+      padding: 20px;
+      border-radius: 20px;
+      margin-top: 20px;
+      border: 1px solid #ff99cc;
+    }
+    #result, #playersList {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #cc0066;
+    }
+    strong {
+      color: #ff0066;
+    }
+    em {
+      font-style: italic;
+      color: #660033;
+      font-size: 22px;
+      background: #fff0f5;
+      padding: 15px;
+      display: inline-block;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.2);
+    }
+    #choiceButtons button {
+      display: inline-block;
+      width: 40%;
+      margin: 10px;
+      background-color: #ff99cc;
+      font-size: 18px;
+    }
+    #questionDisplay {
+      margin-top: 30px;
+      font-size: 24px;
+      color: #d1005d;
+      animation: bounceIn 0.6s ease-in-out;
+    }
+    @keyframes bounceIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <audio id="ding" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio>
+
+  <div class="container">
+    <h1>🎀 Action ou Vérité - Couple ❤️</h1>
+
+    <div>
+      <h3>Entre les prénoms des joueurs :</h3>
+      <input type="text" id="playerInput" placeholder="Ex: Emma, Léo">
+      <button onclick="savePlayers()">Valider</button>
+      <div id="playersList"></div>
+    </div>
+
+    <div>
+      <button onclick="toggleSection('girlSection')">🌸 Actions/Vérités pour la fille</button>
+      <div id="girlSection" class="hidden-section">
+        <h3>Actions pour la fille</h3>
+        <textarea id="actionsForGirl" rows="4" cols="40" placeholder="Une action par ligne"></textarea><br>
+        <h3>Vérités pour la fille</h3>
+        <textarea id="truthsForGirl" rows="4" cols="40" placeholder="Une vérité par ligne"></textarea>
+      </div>
+
+      <button onclick="toggleSection('boySection')">🎩 Actions/Vérités pour le garçon</button>
+      <div id="boySection" class="hidden-section">
+        <h3>Actions pour le garçon</h3>
+        <textarea id="actionsForBoy" rows="4" cols="40" placeholder="Une action par ligne"></textarea><br>
+        <h3>Vérités pour le garçon</h3>
+        <textarea id="truthsForBoy" rows="4" cols="40" placeholder="Une vérité par ligne"></textarea>
+      </div>
+
+      <button onclick="saveActionsTruths()">💾 Enregistrer</button>
+    </div>
+
+    <div>
+      <button onclick="prepareRound()">▶️ Jouer</button>
+    </div>
+
+    <div id="result"></div>
+    <div id="choiceButtons"></div>
+    <div id="questionDisplay"></div>
+  </div>
+
+  <script>
+    let players = [];
+    let actionsForGirl = [], truthsForGirl = [];
+    let actionsForBoy = [], truthsForBoy = [];
+    let currentPlayer = '';
+    let isGirl = false;
+
+    function toggleSection(id) {
+      const section = document.getElementById(id);
+      section.style.display = section.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function savePlayers() {
+      const input = document.getElementById('playerInput').value;
+      players = input.split(',').map(name => name.trim()).filter(name => name);
+      document.getElementById('playersList').innerHTML =
+        players.length > 0 ? `✅ Joueurs : <strong>${players.join(', ')}</strong>` : '';
+    }
+
+    function saveActionsTruths() {
+      actionsForGirl = document.getElementById('actionsForGirl').value.split('\n').map(x => x.trim()).filter(x => x);
+      truthsForGirl = document.getElementById('truthsForGirl').value.split('\n').map(x => x.trim()).filter(x => x);
+      actionsForBoy = document.getElementById('actionsForBoy').value.split('\n').map(x => x.trim()).filter(x => x);
+      truthsForBoy = document.getElementById('truthsForBoy').value.split('\n').map(x => x.trim()).filter(x => x);
+      alert("Actions et Vérités personnalisées enregistrées !");
+    }
+
+    function prepareRound() {
+      if (players.length !== 2) {
+        alert("Ajoute exactement deux joueurs (un garçon et une fille) !");
+        return;
+      }
+
+      document.getElementById('questionDisplay').innerHTML = '';
+      document.getElementById('choiceButtons').innerHTML = '';
+
+      currentPlayer = Math.random() < 0.5 ? players[0] : players[1];
+      isGirl = currentPlayer === players[0];
+
+      document.getElementById('result').innerHTML = `<strong>${currentPlayer}</strong>, choisis :`;
+
+      document.getElementById('choiceButtons').innerHTML = `
+        <button onclick="reveal('action')">💃 Action</button>
+        <button onclick="reveal('verite')">🕵️ Vérité</button>
+      `;
+    }
+
+    function reveal(choice) {
+      let question = "";
+      const ding = document.getElementById('ding');
+      ding.play();
+
+      if (isGirl) {
+        question = choice === 'verite'
+          ? truthsForGirl[Math.floor(Math.random() * truthsForGirl.length)] || "Aucune vérité disponible."
+          : actionsForGirl[Math.floor(Math.random() * actionsForGirl.length)] || "Aucune action disponible.";
+      } else {
+        question = choice === 'verite'
+          ? truthsForBoy[Math.floor(Math.random() * truthsForBoy.length)] || "Aucune vérité disponible."
+          : actionsForBoy[Math.floor(Math.random() * actionsForBoy.length)] || "Aucune action disponible.";
+      }
+
+      document.getElementById('questionDisplay').innerHTML = `<em>${question}</em>`;
+      document.getElementById('choiceButtons').innerHTML = '';
+    }
+  </script>
+</body>
+</html>
